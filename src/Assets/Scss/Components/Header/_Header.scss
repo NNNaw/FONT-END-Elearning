@@ -1,0 +1,93 @@
+.header {
+    background-color: $color-bg;
+
+    .navbar {
+        justify-content: right;
+        padding: 0 10px;
+        .logo_education {
+            img {
+                height: 70px;
+                width: 70px;
+            }
+        }
+        .navbar-nav {
+            .nav-item {
+                margin-right: 10px;
+                .nav-link {
+                    color: $color-black;
+                    transition: linear 0.25s;
+                    &:focus {
+                        color: $color-yellow-0;
+                    }
+                    &:hover {
+                        color: $color-yellow-main;
+                    }
+                }
+            }
+        }
+        .dropdown {
+            box-shadow: none;
+            .dropdown-item {
+                &:hover {
+                    background-color: $color-white-cream;
+                }
+            }
+            &:hover > .dropdown-menu {
+                display: block;
+            }
+        }
+
+        .form-inline {
+            margin-right: auto;
+            .form-control {
+                border-radius: 0.25rem 0 0 0.25rem;
+                border: 1px solid $color-black;
+                height: 38px;
+                box-shadow: none;
+                border-right: none;
+                &:focus {
+                    border: 1px solid $color-black;
+                    border-right: none;
+                }
+                &:focus + .btn-search {
+                    border: 1px solid $color-black;
+                    border-left: none;
+                }
+            }
+
+            .btn-search {
+                border-radius: 0 0.25rem 0.25rem 0;
+                background-color: $color-white;
+                height: 38px;
+                width: 38px;
+                border: 1px solid $color-black;
+                border-left: none;
+                i {
+                    color: $color-yellow-main;
+                }
+                &:hover {
+                    background-color: $color-yellow-main;
+                    border: 1px solid $color-black;
+                    i {
+                        color: $color-white;
+                    }
+                }
+            }
+        }
+        .btn-group_Sign {
+            .btn_SignIn {
+                border: 1px solid $color-black;
+                margin-right: 10px;
+                &:hover {
+                    background-color: $color-white;
+                }
+            }
+            .btn_SignUp {
+                border: 1px solid $color-black;
+                &:hover {
+                    background-color: $color-white;
+                }
+            }
+        }
+    }
+}

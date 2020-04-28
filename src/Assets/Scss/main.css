@@ -1,0 +1,37 @@
+.header {
+  background-color: #b2b985; }
+  .header .navbar {
+    justify-content: right; }
+    .header .navbar .logo_education img {
+      height: 100px;
+      width: 100px; }
+    .header .navbar .dropdown:hover > .dropdown-menu {
+      display: block; }
+    .header .navbar .form-inline .form-control {
+      border-radius: 0.25rem 0 0 0.25rem;
+      border: 1px solid #000;
+      height: 38px;
+      box-shadow: none;
+      border-right: none; }
+      .header .navbar .form-inline .form-control:focus {
+        border: 1px solid #000;
+        border-right: none; }
+      .header .navbar .form-inline .form-control:focus + .btn-search {
+        border: 1px solid #000;
+        border-left: none; }
+    .header .navbar .form-inline .btn-search {
+      border-radius: 0 0.25rem 0.25rem 0;
+      background-color: #fff;
+      height: 38px;
+      width: 38px;
+      border: 1px solid #000;
+      border-left: none; }
+      .header .navbar .form-inline .btn-search i {
+        color: #ffc312; }
+      .header .navbar .form-inline .btn-search:hover {
+        background-color: #ffc312;
+        border: 1px solid #000; }
+        .header .navbar .form-inline .btn-search:hover i {
+          color: #fff; }
+
+/*# sourceMappingURL=main.css.map */

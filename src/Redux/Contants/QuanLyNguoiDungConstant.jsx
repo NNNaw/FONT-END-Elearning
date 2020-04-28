@@ -1,0 +1,7 @@
+export const actionTypes = {
+    DANG_NHAP:'DANG_NHAP',
+    DANG_KY:'DANG_KY',
+    DANG_XUAT:'DANG_XUAT',
+    LAY_DANH_SACH_NGUOI_TAO:'LAY_DANH_SACH_NGUOI_TAO'
+
+}
