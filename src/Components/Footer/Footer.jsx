@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from '../../Assets/Images/LogoEducation.png'
+
 class Footer extends Component {
     render() {
         return (
@@ -20,7 +20,7 @@ class Footer extends Component {
                             <div className="footer_left_formGroup">
                                 <form className="footer_left_form">
                                     <input className='form-control footer_form_email' type="email" placeholder="Nhập email của bạn" />
-                                    <input className='btn btn_main' type="submit" Value="Đăng ký" />
+                                    <input className='btn btn_main' type="submit" value="Đăng ký" />
                                 </form>
                             </div>
                         </div>
@@ -28,9 +28,9 @@ class Footer extends Component {
                         <div className="col-4 footer_content_middle">
 
                             <div className="form-group">
-                                <input type="text" name id className="form-control" placeholder='Họ tên (*)' aria-describedby="helpId" />
-                                <input type="text" name id className="form-control" placeholder='Số điện thoại (*)' aria-describedby="helpId" />
-                                <input type="email" name id className="form-control" placeholder='Email (*)' aria-describedby="helpId" />
+                                <input type="text"  className="form-control" placeholder='Họ tên (*)' aria-describedby="helpId" />
+                                <input type="text"  className="form-control" placeholder='Số điện thoại (*)' aria-describedby="helpId" />
+                                <input type="email"  className="form-control" placeholder='Email (*)' aria-describedby="helpId" />
                                 <input type="submit" className='btn btn_main' value='ĐĂNG KÝ TƯ VẤN' />
                             </div>
 
@@ -49,40 +49,40 @@ class Footer extends Component {
                         <div className="col-4 footer_info_left">
                             <ul className='menu_info'>
                                 <li className='item_info'>
-                                    <i class="fas fa-map-marker-alt"></i>
+                                    <i className="fas fa-map-marker-alt"></i>
                                     <span> Cơ sở 1: 376 Võ Văn Tần – Quận 3</span>
                                 </li>
                                 <li className='item_info'>
-                                    <i class="fas fa-map-marker-alt"></i>
+                                    <i className="fas fa-map-marker-alt"></i>
                                     <span> Cơ sở 2: 459 Sư Vạn Hạnh – Quận 10</span>
                                 </li>
                                 <li className='item_info'>
-                                    <i class="fas fa-map-marker-alt"></i>
+                                    <i className="fas fa-map-marker-alt"></i>
                                     <span> Cơ sở 3: 82 Ung Văn Khiêm – Bình Thạnh</span>
                                 </li>
                                 <li className='item_info'>
-                                    <i class="fas fa-map-marker-alt"></i>
+                                    <i className="fas fa-map-marker-alt"></i>
                                     <span> Cơ sở 4: 110 Đường số 10 nội bộ khu CityLand Phan Văn Trị – Gò Vấp</span>
                                 </li>
                                 <li className='item_info'>
-                                    <i class="fas fa-phone"></i>
+                                    <i className="fas fa-phone"></i>
                                     <span>096.105.1014 – 098.407.5835</span>
                                 </li>
                             </ul>
                         </div>
                         <div className="col-4 footer_infor_middle">
                             <p>
-                                <a href="/lap-trinh-front-end-chuyen-nghiep/">Lập trình Front End ,</a>
-                                <a href="https://cybersoft.edu.vn/lap-trinh-front-end-tich-hop/">Lập trình React JS ,</a>
-                                <a href="https://cybersoft.edu.vn/lap-trinh-front-end-tich-hop/">Lập trình React Angular ,</a>
-                                <a href="http://tư duy" target="_blank" rel="noopener">Lập trình tư duy ,</a>
-                                <a href="https://cybersoft.edu.vn/chuyen-gia-fullstack-javascript-voi-reactjs-nodejs-express/">Lập trình NodeJS ,</a>
-                                <a href="/lap-trinh-back-end-java-web-chuyen-nghiep/">Lập trình Backend ,</a>
-                                <a href="/lap-trinh-back-end-java-web-chuyen-nghiep/">Lập trình Java Web ,</a>
-                                <a href="/lap-trinh-back-end-java-web-chuyen-nghiep/">Lập trình Java Spring – Java Boot ,</a>
-                                <a href="https://toidicodedao.com" target="_blank" rel="noopener">Tôi Đi Code Dạo ,</a>
-                                <a href="http://vietmoz.edu.vn/" target="_blank" rel="noopener">Học SEO Hà Nội ở Vietmoz ,</a>
-                                <a href="https://myclass.vn" target="_blank" rel="noopener">Học lập trình trực tuyến</a>
+                                <a href="/lap-trinh-front-end-chuyen-nghiep/"target="_blank" rel="noopener noreferrer">Lập trình Front End ,</a>
+                                <a href="https://cybersoft.edu.vn/lap-trinh-front-end-tich-hop/"target="_blank" rel="noopener noreferrer">Lập trình React JS ,</a>
+                                <a href="https://cybersoft.edu.vn/lap-trinh-front-end-tich-hop/"target="_blank" rel="noopener noreferrer">Lập trình React Angular ,</a>
+                                <a href="http://tư duy" target="_blank" rel="noopener noreferrer">Lập trình tư duy ,</a>
+                                <a href="https://cybersoft.edu.vn/chuyen-gia-fullstack-javascript-voi-reactjs-nodejs-express/" rel="noopener noreferrer">Lập trình NodeJS ,</a>
+                                <a href="/lap-trinh-back-end-java-web-chuyen-nghiep/"target="_blank" rel="noopener noreferrer">Lập trình Backend ,</a>
+                                <a href="/lap-trinh-back-end-java-web-chuyen-nghiep/"target="_blank" rel="noopener noreferrer">Lập trình Java Web ,</a>
+                                <a href="/lap-trinh-back-end-java-web-chuyen-nghiep/"target="_blank" rel="noopener noreferrer">Lập trình Java Spring – Java Boot ,</a>
+                                <a href="https://toidicodedao.com" target="_blank" rel="noopener noreferrer">Tôi Đi Code Dạo ,</a>
+                                <a href="http://vietmoz.edu.vn/" target="_blank" rel="noopener noreferrer">Học SEO Hà Nội ở Vietmoz ,</a>
+                                <a href="https://myclass.vn" target="_blank" rel="noopener noreferrer">Học lập trình trực tuyến</a>
                             </p>
                         </div>
                     </div>

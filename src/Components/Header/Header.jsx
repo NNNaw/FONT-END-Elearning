@@ -15,6 +15,10 @@ class Header extends Component {
             danhMuc: {
                 maDanhMuc: '',
                 tenDanhMuc: '',
+            },
+            khoaHoc:{
+                maKhoaHoc : '',
+                tenKhoaHoc : '',
             }
         }
     }
@@ -37,15 +41,15 @@ class Header extends Component {
         if (this.props.logOut) {
             return (
                 <div className='btn-group_Sign'>
-                    <NavLink className='btn btn_SignIn' to='/dangnhap'>Đăng nhập</NavLink>
-                    <NavLink className='btn btn_SignUp' to='/dangky'>Đăng ký</NavLink>
+                    <NavLink className='btn btn_Sign' to='/dangnhap'>Đăng nhập</NavLink>
+                    <NavLink className='btn btn_Sign' to='/dangky'>Đăng ký</NavLink>
                 </div>
             )
         } else {
             return (
                 <div className="btn-group_Sign d-flex align-sefl-center">
-                    <button className='hello-title btn btn_SignUp mr-1'>Xin chào, <span>{this.state.user.hoTen}</span></button>
-                    <button className="btn btn_SignUp" onClick={() => { this.props.dangXuatNguoiDung() }}>
+                    <button className='hello-title btn btn_Sign mr-1'>Xin chào, <span>{this.state.user.hoTen}</span></button>
+                    <button className="btn btn_Sign" onClick={() => { this.props.dangXuatNguoiDung() }}>
                         Đăng xuất
                     </button>
                 </div>
@@ -53,13 +57,37 @@ class Header extends Component {
         }
 
     }
-   
+    changeDanhMuc = (maDanhMuc) => {
+        this.setState({
+            danhMuc: {
+                maDanhMuc: maDanhMuc
+            }
+        }, () => {
+
+        });
+    }
     renderDanhMucKhoaHoc = () => {
         return this.props.mangDanhMucKhoaHoc.map((danhMuc, index) => {
             return (
-                <p key={index} className="dropdown-item m-0" onClick={() => this.setState({danhMuc:{maDanhMuc:danhMuc.maDanhMuc}})}>{danhMuc.tenDanhMuc}</p>
+                <NavLink to={`/DanhSachKhoaHocTheoDanhMuc/${danhMuc.maDanhMuc}`}
+                    key={index} className="dropdown-item m-0" onClick={() => this.changeDanhMuc(danhMuc.maDanhMuc)}>
+                    {danhMuc.tenDanhMuc}
+                </NavLink>
             )
         })
+    }
+    handleChange = (event)=>{
+
+        let { name, value } = event.target;
+        this.setState({
+            khoaHoc :{
+                ...this.state.khoaHoc, [name]: value
+            }
+        },()=>{
+            console.log(this.state.khoaHoc)
+        });
+        //console.log(name , value)
+
     }
     render() {
         return (
@@ -91,10 +119,10 @@ class Header extends Component {
                         </ul>
 
                         <form className="form-inline">
-                            <input className="form-control" type="search" placeholder="Search" aria-label="Search" />
-                            <button className="btn btn-search" type="submit">
+                            <input className="form-control" type="search" placeholder="Search" aria-label="Search" value={this.state.khoaHoc.tenKhoaHoc} name='tenKhoaHoc' id='tenKhoaHoc' onChange={this.handleChange}/>
+                            <NavLink to={`/TimKiemKhoaHoc/${this.state.khoaHoc.tenKhoaHoc}`} className="btn btn-search">
                                 <i className="fas fa-search"></i>
-                            </button>
+                            </NavLink>
                         </form>
                         {this.renderButton()}
                     </div>

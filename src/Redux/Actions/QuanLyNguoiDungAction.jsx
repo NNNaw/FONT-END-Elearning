@@ -11,7 +11,7 @@ export const dangNhapNguoiDungAction = (user, checkRemeber, handleLogin) => {
             method: 'POST',
             data: user
         }).then(result => {
-            
+
             if (checkRemeber) {//kiểm trả user cho phép nhớ mật khẩu hay không
                 localStorage.setItem(settings.userLogin, JSON.stringify(result.data));
                 localStorage.setItem(settings.token, result.data.accessToken)
@@ -47,7 +47,7 @@ export const dangKyNguoiDungAction = (user, handleClear) => {
             handleClear();
 
         }).catch(error => {
-             console.log(error.response)
+            console.log(error.response)
             swal({
                 icon: "warning",
                 title: "Đăng ký không thành công.",
@@ -57,6 +57,39 @@ export const dangKyNguoiDungAction = (user, handleClear) => {
         })
     }
 }
+
+export const dangKyKhoaHocAction = (taiKhoan, maKhoaHoc) => {
+
+    return dispatch => {
+        axios({
+            url: settings.domain + '/QuanLyKhoaHoc/DangKyKhoaHoc',
+            method: 'POST',
+            data: {
+                taiKhoan,
+                maKhoaHoc
+            },
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem(settings.token)
+            }
+        }).then(result => {
+           
+            swal({
+                icon: "success",
+                title: "Đăng ký thành công",
+
+            })
+        }).catch(error => {
+            console.log(error.response)
+            swal({
+                icon: "warning",
+                title: "Đăng ký không thành công.",
+                text: error.response.data,
+                dangerMode: true,
+            });
+        })
+    }
+}
+
 
 export const layDanhSachNguoiTaoAction = () => {
     return dispatch => {

@@ -15,12 +15,31 @@
                 margin-right: 10px;
                 .nav-link {
                     color: $color-black;
-                    transition: linear 0.25s;
+                    border: 1px solid black;
+                    transition: all 0.5s linear;
+                    border-radius: 5px;
+                    position: relative;
+                    z-index: 1000;
                     &:focus {
-                        color: $color-yellow-0;
+                        color: $color-green;
                     }
                     &:hover {
-                        color: $color-yellow-main;
+                        background-color: $color-yellow-main;
+                    }
+                    &::after {
+                        content: "";
+                        height: 2px;
+                        background-color: red;
+                        transition: all 0.5s ease;
+                        width: 0%;
+                        bottom: 0;
+                        left: 50%;
+                        position: absolute;
+                       
+                    }
+                    &:hover:after {
+                        width: 100%;
+                        left: 0%;
                     }
                 }
             }

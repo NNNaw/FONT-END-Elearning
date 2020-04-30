@@ -82,7 +82,7 @@ class SignIn extends Component {
                                     Don't have an account? <NavLink to="/dangky">Sign Up</NavLink>
                                 </div>
                                 <div className="d-flex justify-content-center">
-                                    <a href="#">Forgot your password?</a>
+                                   
                                 </div>
                             </div>
                         </div>
