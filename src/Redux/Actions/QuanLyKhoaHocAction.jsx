@@ -73,19 +73,24 @@ export const layThongTinKhoaHocAction = (maKhoaHoc) => {
     })
   }
 }
-export const layThongTinKhoaHocTimKiemAction = (tenKhoaHoc) => {
+export const layThongTinKhoaHocTimKiemAction = (tenKhoaHoc, errorSearch, offset, perPage, set) => {
   return dispatch => {
     axios({
       url: settings.domain + `/QuanLyKhoaHoc/LayDanhSachKhoaHoc?tenKhoaHoc=${tenKhoaHoc}&MaNhom=${settings.groupID}`,
       type: 'GET'
     }).then(result => {
-     console.log(result.data)
+      const data = result.data;
+      const dataSliced = data.slice(offset, offset + perPage)
+
       dispatch({
         type: actionType.LAY_THONG_TIN_KHOA_HOC_TIM_KIEM,
-        mangKhoaHocTimKiem: result.data
+        mangKhoaHocTimKiem: dataSliced
       })
+      const count = Math.ceil(data.length / perPage)
+      set(count)
     }).catch(error => {
       console.log(error.response.data)
+      errorSearch(error.response.data)
     })
   }
 }

@@ -16,9 +16,9 @@ class Header extends Component {
                 maDanhMuc: '',
                 tenDanhMuc: '',
             },
-            khoaHoc:{
-                maKhoaHoc : '',
-                tenKhoaHoc : '',
+            khoaHoc: {
+                maKhoaHoc: '',
+                tenKhoaHoc: '',
             }
         }
     }
@@ -48,7 +48,7 @@ class Header extends Component {
         } else {
             return (
                 <div className="btn-group_Sign d-flex align-sefl-center">
-                    <button className='hello-title btn btn_Sign mr-1'>Xin chào, <span>{this.state.user.hoTen}</span></button>
+                    <NavLink to={`/ThongTinCaNhan`} className='hello-title btn btn_Sign mr-1'>Xin chào, <span>{this.state.user.hoTen}</span></NavLink>
                     <button className="btn btn_Sign" onClick={() => { this.props.dangXuatNguoiDung() }}>
                         Đăng xuất
                     </button>
@@ -76,18 +76,21 @@ class Header extends Component {
             )
         })
     }
-    handleChange = (event)=>{
+    handleChange = (event) => {
 
         let { name, value } = event.target;
         this.setState({
-            khoaHoc :{
+            khoaHoc: {
                 ...this.state.khoaHoc, [name]: value
             }
-        },()=>{
-            console.log(this.state.khoaHoc)
         });
-        //console.log(name , value)
-
+       
+    }
+    handleKeyUp = (event) => {
+        if (event.key === "Enter") {
+            document.getElementById('nav').click();
+        }
+       
     }
     render() {
         return (
@@ -119,8 +122,9 @@ class Header extends Component {
                         </ul>
 
                         <form className="form-inline">
-                            <input className="form-control" type="search" placeholder="Search" aria-label="Search" value={this.state.khoaHoc.tenKhoaHoc} name='tenKhoaHoc' id='tenKhoaHoc' onChange={this.handleChange}/>
-                            <NavLink to={`/TimKiemKhoaHoc/${this.state.khoaHoc.tenKhoaHoc}`} className="btn btn-search">
+                            <input className="form-control" type="search" placeholder="Search" aria-label="Search" 
+                            value={this.state.khoaHoc.tenKhoaHoc} name='tenKhoaHoc' id='tenKhoaHoc' onChange={this.handleChange} onKeyDown={this.handleKeyUp} />
+                            <NavLink id='nav' to={`/TimKiemKhoaHoc/${this.state.khoaHoc.tenKhoaHoc}`} className="btn btn-search">
                                 <i className="fas fa-search"></i>
                             </NavLink>
                         </form>

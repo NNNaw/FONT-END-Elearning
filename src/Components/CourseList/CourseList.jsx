@@ -106,7 +106,9 @@ class CourseList extends Component {
         return (
             <div className='courseList'>
                 <div className="courseList_container container">
+                    <h3>Danh sách các khóa học:</h3>
                     <div className="row courseList_card">
+
                         {this.renderCourseList()}
                     </div>
                     <div className="row courseList_page_index">
@@ -124,7 +126,7 @@ const mapStateToProp = state => {
         mangKhoaHoc: state.QuanLyKhoaHocReducer.mangKhoaHoc,
         mangKhoaHocPhanTrang: state.QuanLyKhoaHocReducer.mangKhoaHocPhanTrang,
         thongTinKhoaHocPhanTrang: state.QuanLyKhoaHocReducer.thongTinKhoaHocPhanTrang,
-        user : state.QuanLyNguoiDungReducer.user
+        user: state.QuanLyNguoiDungReducer.user
     }
 }
 
