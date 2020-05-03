@@ -3,7 +3,9 @@ import { actionTypes } from '../Contants/QuanLyNguoiDungConstant';
 const initialState = {
     user: JSON.parse(localStorage.getItem('userLogin')) || null,
     logOut: JSON.parse(localStorage.getItem('userLogin')) === null ? true : false,
-    mangNguoiDung: []
+    mangNguoiDung: [],
+    thongTinTaiKhoan : {},
+    chiTietKhoaHocGhiDanh : [],
 }
 
 export const QuanLyNguoiDungReducer = (state = initialState, action) => {
@@ -21,6 +23,11 @@ export const QuanLyNguoiDungReducer = (state = initialState, action) => {
         }
         case actionTypes.LAY_DANH_SACH_NGUOI_TAO: {
             state.mangNguoiDung = action.mangNguoiDung;
+            return { ...state }
+        }
+        case actionTypes.LAY_THONG_TIN_TAI_KHOAN: {
+            state.thongTinTaiKhoan = action.thongTinTaiKhoan;
+            state.chiTietKhoaHocGhiDanh = action.thongTinTaiKhoan.chiTietKhoaHocGhiDanh
             return { ...state }
         }
         default:

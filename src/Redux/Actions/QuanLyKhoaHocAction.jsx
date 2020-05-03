@@ -1,7 +1,8 @@
 import { actionType } from '../Contants/QuanLyKhoaHocConstant';
 import { settings } from '../../Commons/Settings';
+import {layThongtinTaiKhoanAction} from './QuanLyNguoiDungAction'
 import axios from 'axios';
-
+import swal from 'sweetalert'
 export const layDanhMucKhoaHocAction = () => {
   return dispatch => {
     axios({
@@ -79,6 +80,7 @@ export const layThongTinKhoaHocTimKiemAction = (tenKhoaHoc, errorSearch, offset,
       url: settings.domain + `/QuanLyKhoaHoc/LayDanhSachKhoaHoc?tenKhoaHoc=${tenKhoaHoc}&MaNhom=${settings.groupID}`,
       type: 'GET'
     }).then(result => {
+
       const data = result.data;
       const dataSliced = data.slice(offset, offset + perPage)
 
@@ -86,8 +88,8 @@ export const layThongTinKhoaHocTimKiemAction = (tenKhoaHoc, errorSearch, offset,
         type: actionType.LAY_THONG_TIN_KHOA_HOC_TIM_KIEM,
         mangKhoaHocTimKiem: dataSliced
       })
-      const count = Math.ceil(data.length / perPage)
-      set(count)
+
+      set(data.length)
     }).catch(error => {
       console.log(error.response.data)
       errorSearch(error.response.data)
@@ -130,23 +132,37 @@ export const themKhoaHocAction = (khoaHoc) => {
   }
 }
 
+export const huyGhiDanhAction = (maKhoaHoc, taiKhoan ) => {
+  return dispatch => {
+    axios({
+      url: settings.domain + `/QuanLyKhoaHoc/HuyGhiDanh`,
+      method: 'POST',
+      data: {
+        "maKhoaHoc": maKhoaHoc,
+        "taiKhoan": taiKhoan
+      },
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem(settings.token)
+      }
 
+    }).then(result => {
+      dispatch(layThongtinTaiKhoanAction(taiKhoan))
+     
+      swal({
+        icon: "success",
+        title: "Hủy thành công",
 
+      })
 
-// export const layDanhSachKhoaHocPhanTrangAction1 = (pageCurrent, sizePage) => {
-//   return dispatch => {
-//     axios({
-//       url: settings.domain + `/QuanLyKhoaHoc/LayDanhSachKhoaHoc_PhanTrang?page=${pageCurrent}&pageSize=${sizePage}&MaNhom=${settings.groupID}`,
-//       method: 'GET',
-//     }).then(result => {
-//       console.log(result.data)
-//       dispatch({
-//         type : actionType.LAY_DANH_SACH_KHOA_HOC_PHAN_TRANG,
-//         mangKhoaHocPhanTrang : result.data.items,
-//         thongTinKhoaHocPhanTrang : result.data
-//       })
-//     }).catch(error => {
-//       console.log(error.response.data);
-//     })
-//   }
-// }
+    }).catch(error => {
+
+      console.log(error.response.data);
+      swal({
+        icon: "warning",
+        title: "Đăng ký không thành công.",
+        text: error.response.data,
+        dangerMode: true,
+      });
+    })
+  }
+}

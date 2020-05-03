@@ -48,7 +48,7 @@ class Header extends Component {
         } else {
             return (
                 <div className="btn-group_Sign d-flex align-sefl-center">
-                    <NavLink to={`/ThongTinCaNhan`} className='hello-title btn btn_Sign mr-1'>Xin chào, <span>{this.state.user.hoTen}</span></NavLink>
+                    <NavLink to={`/ThongTinCaNhan/${this.props.user.taiKhoan}`} className='hello-title btn btn_Sign mr-1'>Xin chào, <span>{this.state.user.hoTen}</span></NavLink>
                     <button className="btn btn_Sign" onClick={() => { this.props.dangXuatNguoiDung() }}>
                         Đăng xuất
                     </button>
@@ -123,8 +123,8 @@ class Header extends Component {
 
                         <form className="form-inline">
                             <input className="form-control" type="search" placeholder="Search" aria-label="Search" 
-                            value={this.state.khoaHoc.tenKhoaHoc} name='tenKhoaHoc' id='tenKhoaHoc' onChange={this.handleChange} onKeyDown={this.handleKeyUp} />
-                            <NavLink id='nav' to={`/TimKiemKhoaHoc/${this.state.khoaHoc.tenKhoaHoc}`} className="btn btn-search">
+                            value={this.state.khoaHoc.tenKhoaHoc} name='tenKhoaHoc' id='inputSearch' onChange={this.handleChange} onKeyDown={this.handleKeyUp} />
+                            <NavLink id='nav' to={`/TimKiemKhoaHoc/${encodeURIComponent(this.state.khoaHoc.tenKhoaHoc)}`} className="btn btn-search">
                                 <i className="fas fa-search"></i>
                             </NavLink>
                         </form>

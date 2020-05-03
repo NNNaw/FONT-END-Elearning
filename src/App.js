@@ -27,7 +27,7 @@ function App() {
           <Hometemplate exact path='/TimKiemKhoaHoc/:tenKhoaHoc' Component={CourseSearch} />
           <Hometemplate exact path='/TimKiemKhoaHoc/' Component={CourseSearch} />
           {/*Sử dụng route để không kế thừa từ template home hoặc tự định nghĩa ra template riêng cho login */}
-          <Route exact path='/ThongTinCaNhan' component={InfoPersonal} />
+          <Route exact path='/ThongTinCaNhan/:taiKhoan' component={InfoPersonal} />
           <Route exact path='/dangnhap' component={SignIn} />
           <Route exact path='/dangky' component={SignUp} />
 

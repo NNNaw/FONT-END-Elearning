@@ -72,7 +72,7 @@ export const dangKyKhoaHocAction = (taiKhoan, maKhoaHoc) => {
                 "Authorization": "Bearer " + localStorage.getItem(settings.token)
             }
         }).then(result => {
-           
+
             swal({
                 icon: "success",
                 title: "Đăng ký thành công",
@@ -90,7 +90,59 @@ export const dangKyKhoaHocAction = (taiKhoan, maKhoaHoc) => {
     }
 }
 
+export const layThongtinTaiKhoanAction = (taiKhoan) => {
 
+    return dispatch => {
+        axios({
+            url: settings.domain + '/QuanLyNguoiDung/ThongTinTaiKhoan',
+            method: 'POST',
+            data: { taiKhoan },
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem(settings.token)
+            }
+        }).then(result => {
+            dispatch({
+                type: actionTypes.LAY_THONG_TIN_TAI_KHOAN,
+                thongTinTaiKhoan: result.data
+            })
+        }).catch(error => {
+            console.log(error.response)
+        })
+    }
+}
+
+export const CapNhatThongTinNguoiDungAction = (user) => {
+
+    return dispatch => {
+        axios({
+            url: settings.domain + '/QuanLyNguoiDung/CapNhatThongTinNguoiDung',
+            method: 'PUT',
+            data: {
+                "taiKhoan": user.taiKhoan,
+                "matKhau": user.matKhau,
+                "hoTen": user.hoTen,
+                "soDT": user.soDT,
+                "maLoaiNguoiDung": user.maLoaiNguoiDung,
+                "maNhom": settings.groupID,
+                "email": user.email
+            },
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem(settings.token)
+            }
+        }).then(result => {
+            console.log(result.data)
+            swal({
+                icon: "success",
+                title: "Cập nhật thành công",
+                buttons: false,
+                timer: 1000,
+            })
+            dispatch(layThongtinTaiKhoanAction(user.taiKhoan))
+        }).catch(error => {
+            console.log(error.response)
+        })
+    }
+}
 export const layDanhSachNguoiTaoAction = () => {
     return dispatch => {
         axios({

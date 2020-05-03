@@ -17,6 +17,7 @@ class CourseSearch extends Component {
             perPage: 4,
             currentPage: 0,
             pageCount: 0,
+            lengthSearch: 0,
         }
     }
 
@@ -26,13 +27,15 @@ class CourseSearch extends Component {
     }
     componentDidUpdate() {
         let { tenKhoaHoc } = this.props.match.params
+        let { offset, perPage } = this.state
         if (this.state.tenKhoaHoc !== tenKhoaHoc) {
-            this.props.layThongTinKhoaHocTimKiem(tenKhoaHoc, this.errorSearch)
+            this.props.layThongTinKhoaHocTimKiem(tenKhoaHoc, this.errorSearch, offset, perPage, this.set)
             this.setState({ tenKhoaHoc: tenKhoaHoc, error: '' })
         }
     }
-    set = (count) => {
-        this.setState({ pageCount: count });
+    set = (Length) => {
+        const count = Math.ceil(Length / this.state.perPage)
+        this.setState({ pageCount: count, lengthSearch: Length });
     }
     errorSearch = (err) => {
         this.setState({
@@ -41,14 +44,22 @@ class CourseSearch extends Component {
     }
 
     handleView = (mota, id) => {
+        if (mota.length >= 200) {
+            let moTaPhiaSau = mota.substring(200, mota.length)
+            let moTaPhiaTruoc = mota.substring(0, 200)
 
-
-        let moTaPhiaSau = mota.substring(200, mota.length)
-        let moTaPhiaTruoc = mota.substring(0, 200)
-
-        return (
-            <p className='text-white'>{moTaPhiaTruoc}<span id={`dots_${id}`} >...</span><span className='more' id={`more_${id}`}>{moTaPhiaSau}</span></p>
-        )
+            return (
+                <div>
+                    <p className='text-white'>{moTaPhiaTruoc}<span id={`dots_${id}`} >...</span><span className='more' id={`more_${id}`}>{moTaPhiaSau}</span></p>
+                    <span className='btn btn-success' id={`btnReadMore_${id}`} onClick={() => this.readMore(id)}>Đọc Thêm</span>
+                </div>
+            )
+        }
+        else {
+            return (
+                <p className='text-white'>{mota}</p>
+            )
+        }
     }
     readMore = (index) => {
 
@@ -101,8 +112,11 @@ class CourseSearch extends Component {
 
         )
     }
+
     renderCourseSearch = () => {
+
         return this.props.mangKhoaHocTimKiem.map((element, index) => {
+
             return (
                 <div className="row bg-dark my-3 py-3" height={200} key={index}>
                     <NavLink to={`/ThongTinKhoaHoc/${element.maKhoaHoc}`} className="col-3">
@@ -111,7 +125,7 @@ class CourseSearch extends Component {
                     <div className="col-6">
                         <NavLink to={`/ThongTinKhoaHoc/${element.maKhoaHoc}`}><h3>{element.tenKhoaHoc}</h3></NavLink>
                         {this.handleView(element.moTa, index)}
-                        <span className='btn btn-success' id={`btnReadMore_${index}`} onClick={() => this.readMore(index)}>Đọc Thêm</span>
+
                     </div>
                     <div className="col-3 text-white">
                         <p>Lượt xem: {element.luotXem}</p>
@@ -123,15 +137,18 @@ class CourseSearch extends Component {
         })
     }
     render() {
+
+
         return (
             <div className='CourseSearch '>
                 <div className="CourseSearch_container container my-5">
                     {this.state.error !== '' ? <div><p>{this.state.error}</p></div> :
                         <div>
-                            <h2>Tìm thấy {this.props.mangKhoaHocTimKiem.length} khóa học "{this.state.tenKhoaHoc}"</h2>
+                            <h2>Tìm thấy {this.state.lengthSearch} khóa học liên quan đến từ khóa "{decodeURIComponent(this.state.tenKhoaHoc)}"</h2>
                             {this.renderCourseSearch()}
                         </div>
                     }
+
                     <div className="row">
                         {this.renderPageIndex()}
                     </div>

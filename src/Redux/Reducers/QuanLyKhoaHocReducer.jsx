@@ -6,6 +6,7 @@ const initialState = {
   mangKhoaHocPhanTrang: [],
   thongTinKhoaHocPhanTrang: [],
   thongTinKhoaHoc: [],
+  
   mangKhoaHocTimKiem: [],
 }
 export const QuanLyKhoaHocReducer = (state = initialState, action) => {
@@ -22,6 +23,7 @@ export const QuanLyKhoaHocReducer = (state = initialState, action) => {
     }
     case actionType.LAY_THONG_TIN_KHOA_HOC: {
       state.thongTinKhoaHoc = action.thongTinKhoaHoc;
+     
       return { ...state }
     }
     case actionType.LAY_DANH_SACH_KHOA_HOC_PHAN_TRANG: {
