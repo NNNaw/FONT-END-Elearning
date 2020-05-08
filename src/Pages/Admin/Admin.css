@@ -1,0 +1,7 @@
+input[type=text]:disabled {
+    background: white;
+    border: none;
+  }
+  /* td{
+    padding: 0;
+  } */

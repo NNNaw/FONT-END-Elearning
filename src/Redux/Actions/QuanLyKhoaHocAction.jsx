@@ -1,8 +1,9 @@
 import { actionType } from '../Contants/QuanLyKhoaHocConstant';
 import { settings } from '../../Commons/Settings';
-import {layThongtinTaiKhoanAction} from './QuanLyNguoiDungAction'
+import { layThongtinTaiKhoanAction } from './QuanLyNguoiDungAction'
 import axios from 'axios';
 import swal from 'sweetalert'
+
 export const layDanhMucKhoaHocAction = () => {
   return dispatch => {
     axios({
@@ -115,24 +116,56 @@ export const layDanhSachKhoaHocTheoDanhMucAction = (maDanhMuc) => {
 }
 
 
-export const themKhoaHocAction = (khoaHoc) => {
+// export const themKhoaHocAction = (khoaHoc) => {
+//   return dispatch => {
+//     axios({
+//       url: settings.domain + `/QuanLyKhoaHoc/ThemKhoaHoc`,
+//       method: 'post',
+//       data: { ...khoaHoc, maNhom: settings.groupID, ngayTao: '10/10/2019' },
+//       headers: {
+//         "Authorization": "Bearer " + localStorage.getItem(settings.token)
+//       }
+//     }).then(result => {
+//       console.log(result.data);
+//     }).catch(error => {
+//       console.log(error.response.data);
+//     })
+//   }
+// }
+export const dangKyKhoaHocAction = (taiKhoan, maKhoaHoc) => {
+
   return dispatch => {
     axios({
-      url: settings.domain + `/QuanLyKhoaHoc/ThemKhoaHoc`,
-      method: 'post',
-      data: { ...khoaHoc, maNhom: settings.groupID, ngayTao: '10/10/2019' },
+      url: settings.domain + '/QuanLyKhoaHoc/DangKyKhoaHoc',
+      method: 'POST',
+      data: {
+        taiKhoan,
+        maKhoaHoc
+      },
       headers: {
         "Authorization": "Bearer " + localStorage.getItem(settings.token)
       }
     }).then(result => {
-      console.log(result.data);
+
+      swal({
+        icon: "success",
+        title: "Đăng ký thành công",
+        timer: 1000,
+        buttons: false
+      })
     }).catch(error => {
-      console.log(error.response.data);
+      console.log(error.response)
+      swal({
+        icon: "warning",
+        title: "Đăng ký không thành công.",
+        text: error.response.data,
+        dangerMode: true,
+      });
     })
   }
 }
 
-export const huyGhiDanhAction = (maKhoaHoc, taiKhoan ) => {
+export const huyGhiDanhAction = (maKhoaHoc, taiKhoan) => {
   return dispatch => {
     axios({
       url: settings.domain + `/QuanLyKhoaHoc/HuyGhiDanh`,
@@ -147,7 +180,7 @@ export const huyGhiDanhAction = (maKhoaHoc, taiKhoan ) => {
 
     }).then(result => {
       dispatch(layThongtinTaiKhoanAction(taiKhoan))
-     
+
       swal({
         icon: "success",
         title: "Hủy thành công",
@@ -160,6 +193,111 @@ export const huyGhiDanhAction = (maKhoaHoc, taiKhoan ) => {
       swal({
         icon: "warning",
         title: "Đăng ký không thành công.",
+        text: error.response.data,
+        dangerMode: true,
+      });
+    })
+  }
+}
+
+export const themKhoaHocAction = (khoaHoc, clearField) => {
+  return dispatch => {
+    axios({
+      url: settings.domain + '/QuanLyKhoaHoc/ThemKhoaHoc',
+      method: 'POST',
+      data: {
+        ...khoaHoc
+      },
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem(settings.token)
+      }
+    }).then(result => {
+      console.log(result.data)
+      dispatch(layDanhSachKhoaHocAction())
+      clearField();
+      swal({
+        icon: "success",
+        title: "Thêm thành công",
+        timer: 1000,
+        buttons: false
+      })
+    }).catch(error => {
+      console.log(error.response.data)
+      swal({
+        icon: "warning",
+        title: "Thêm không thành công.",
+        text: error.response.data,
+        dangerMode: true,
+      });
+    })
+  }
+}
+
+export const xoaKhoaHocAction = (maKhoaHoc) => {
+  return dispatch => {
+    axios({
+      url: settings.domain + `/QuanLyKhoaHoc/XoaKhoaHoc?MaKhoaHoc=${encodeURIComponent(maKhoaHoc)}`,
+      method: 'DELETE',
+
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem(settings.token)
+      }
+
+    }).then(result => {
+      console.log(result.data)
+      dispatch(layDanhSachKhoaHocAction())
+
+      swal({
+        icon: "success",
+        title: result.data,
+        timer: 1000,
+        buttons: false
+      })
+    }).catch(error => {
+
+      console.log(error.response.data)
+      swal({
+        icon: "warning",
+        title: "Thông báo!!!",
+        text: error.response.data,
+        dangerMode: true,
+      });
+    })
+  }
+}
+
+
+
+export const capNhatKhoaHocAction = (khoaHoc) => {
+
+
+  console.log(khoaHoc)
+  return dispatch => {
+    axios({
+      url: settings.domain + `/QuanLyKhoaHoc/CapNhatKhoaHoc`,
+      method: 'PUT',
+      data: { ...khoaHoc },
+
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem(settings.token)
+      }
+
+    }).then(result => {
+      console.log(result.data)
+      dispatch(layDanhSachKhoaHocAction())
+
+      swal({
+        icon: "success",
+        title: "Cập nhật thành công!",
+        timer: 1000,
+        buttons: false
+      })
+    }).catch(error => {
+
+      console.log(error.response.data)
+      swal({
+        icon: "warning",
+        title: "Thông báo!!!",
         text: error.response.data,
         dangerMode: true,
       });

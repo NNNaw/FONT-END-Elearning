@@ -1,27 +1,27 @@
 import React, { Fragment } from 'react';
-import { Route,NavLink } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 const AdminLayout = (props) => {
     return <Fragment>
-        <ul className="nav nav-tabs bg-dark text-white">
+        {/* <ul className="nav nav-tabs bg-dark text-white">
             <li className="nav-item">
-                <a href="#" className="nav-link active">Admin index</a>
+                <a href="#" className="nav-link active">Admin Template</a>
             </li>
             <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Quản lý khoá học</a>
                 <div className="dropdown-menu">
-                    <NavLink className="dropdown-item" to='/admin/addcourse'>Thêm khoá học</NavLink>
-                    <NavLink className="dropdown-item" to='/admin/courselist'>Danh sách khoá học</NavLink>
+                    <p className="dropdown-item" >Thêm khoá học</p>
+                    <p className="dropdown-item" >Danh sách khoá học</p>
                 </div>
             </li>
            
-        </ul>
-
+        </ul> */}
+        
         {props.children}
     </Fragment>
 }
 
-export const Admin = ({ Component, ...props }) => (
+export const AdminTemplate = ({ Component, ...props }) => (
     <Route {...props} render={(propComponent) => (
         <AdminLayout>
             <Component {...propComponent} />

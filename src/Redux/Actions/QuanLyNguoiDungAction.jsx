@@ -58,37 +58,6 @@ export const dangKyNguoiDungAction = (user, handleClear) => {
     }
 }
 
-export const dangKyKhoaHocAction = (taiKhoan, maKhoaHoc) => {
-
-    return dispatch => {
-        axios({
-            url: settings.domain + '/QuanLyKhoaHoc/DangKyKhoaHoc',
-            method: 'POST',
-            data: {
-                taiKhoan,
-                maKhoaHoc
-            },
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem(settings.token)
-            }
-        }).then(result => {
-
-            swal({
-                icon: "success",
-                title: "Đăng ký thành công",
-
-            })
-        }).catch(error => {
-            console.log(error.response)
-            swal({
-                icon: "warning",
-                title: "Đăng ký không thành công.",
-                text: error.response.data,
-                dangerMode: true,
-            });
-        })
-    }
-}
 
 export const layThongtinTaiKhoanAction = (taiKhoan) => {
 
@@ -113,6 +82,7 @@ export const layThongtinTaiKhoanAction = (taiKhoan) => {
 
 export const CapNhatThongTinNguoiDungAction = (user) => {
 
+    console.log(user)
     return dispatch => {
         axios({
             url: settings.domain + '/QuanLyNguoiDung/CapNhatThongTinNguoiDung',
@@ -143,6 +113,7 @@ export const CapNhatThongTinNguoiDungAction = (user) => {
         })
     }
 }
+
 export const layDanhSachNguoiTaoAction = () => {
     return dispatch => {
         axios({
@@ -152,7 +123,7 @@ export const layDanhSachNguoiTaoAction = () => {
             //Sau khi lấy dữ liệu người dùng về từ api => đưa dữ liệu lên reducer
             dispatch({
                 type: actionTypes.LAY_DANH_SACH_NGUOI_TAO,
-                mangNguoiDung: result.data.filter(nd => nd.maLoaiNguoiDung === 'GV')
+                mangNguoiDungGV : result.data.filter(nd => nd.maLoaiNguoiDung === 'GV')
             })
 
         }).catch(error => {
@@ -161,3 +132,102 @@ export const layDanhSachNguoiTaoAction = () => {
     }
 }
 
+export const layDanhSachNguoiDungAction = () =>{
+    return dispatch =>{
+        axios({
+            url : settings.domain + `/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=${settings.groupID}`,
+            method : 'GET'
+        }).then(result=> {
+            
+            dispatch({
+                type : actionTypes.LAY_DANH_SACH_NGUOI_DUNG,
+                mangNguoiDung : result.data
+            })
+        }).catch(error => {
+            console.log(error.response.data);
+        })
+    }
+}
+export const layDanhSachLoaiNguoiDungAction = () =>{
+    return dispatch =>{
+        axios({
+            url : settings.domain + `/QuanLyNguoiDung/LayDanhSachLoaiNguoiDung`,
+            method : 'GET'
+        }).then(result=> {
+            
+            dispatch({
+                type : actionTypes.LAY_DANH_SACH_LOAI_NGUOI_DUNG,
+                mangLoaiNguoiDung : result.data
+            })
+        }).catch(error => {
+            console.log(error.response.data);
+        })
+    }
+}
+
+
+export const themNguoiDungAction = (user,clearField) => {
+
+    return dispatch => {
+        axios({
+            url: settings.domain + '/QuanLyNguoiDung/ThemNguoiDung',
+            method: 'POST',
+            data: {
+                ...user
+            },
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem(settings.token)
+            }
+        }).then(result => {
+            console.log(result.data)
+            dispatch(layDanhSachNguoiDungAction())
+            clearField()
+            swal({
+                icon: "success",
+                title: "Thêm thành công",
+                timer : 1000,
+                buttons: false
+            })
+        }).catch(error => {
+            console.log(error.response)
+            swal({
+                icon: "warning",
+                title: "Thêm không thành công.",
+                text: error.response.data,
+                dangerMode: true,
+            });
+        })
+    }
+}
+
+export const xoaNguoiDungAction = (taiKhoan) => {
+
+    return dispatch => {
+        axios({
+            url: settings.domain + `/QuanLyNguoiDung/XoaNguoiDung?TaiKhoan=${taiKhoan}`,
+            method: 'DELETE',
+            
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem(settings.token)
+            }
+        }).then(result => {
+            console.log(result.data)
+            dispatch(layDanhSachNguoiDungAction())
+           
+            swal({
+                icon: "success",
+                title: "Thêm thành công",
+                timer : 1000,
+                buttons: false
+            })
+        }).catch(error => {
+            console.log(error.response)
+            swal({
+                icon: "warning",
+                title: "Thêm không thành công.",
+                text: error.response.data,
+                dangerMode: true,
+            });
+        })
+    }
+  }

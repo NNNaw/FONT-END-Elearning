@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import swal from 'sweetalert';
-import { layDanhSachKhoaHocTheoDanhMucAction } from '../../Redux/Actions/QuanLyKhoaHocAction'
-import { dangKyKhoaHocAction } from '../../Redux/Actions/QuanLyNguoiDungAction'
+import { layDanhSachKhoaHocTheoDanhMucAction, dangKyKhoaHocAction } from '../../Redux/Actions/QuanLyKhoaHocAction'
+import {NavLink} from 'react-router-dom'
+import { spaceNumber } from '../../Commons/handleCommons'
 class CourseCategory extends Component {
 
     constructor(props) {
@@ -57,13 +58,18 @@ class CourseCategory extends Component {
             return (
                 <div className="col-3 card-content" key={index}>
                     <div className="card card-detail">
-                        <img className="card-img-top" src={element.hinhAnh} alt={element.tenKhoaHoc.toString()} />
+                        <NavLink to={`/ThongTinKhoaHoc/${encodeURIComponent(element.maKhoaHoc)}`}>
+                            <img className="card-img-top" src={element.hinhAnh} alt={element.tenKhoaHoc.toString()} />
+                        </NavLink>
+
                         <div className="card-body">
                             <div className="card_header">
-                                <h4 className="card-title">{element.tenKhoaHoc}</h4>
+                                <NavLink to={`/ThongTinKhoaHoc/${encodeURIComponent(element.maKhoaHoc)}`} className="card-title">
+                                    {element.tenKhoaHoc}</NavLink>
                             </div>
+
                             <div className='card_footer'>
-                                <span><i className="fas fa-eye"></i> {element.luotXem}</span>
+                                <span><i className="fas fa-eye"></i> {spaceNumber(element.luotXem)}</span>
                                 <button className='btn btn_main card_bnt_dangky' onClick={() => this.handleSignUpCourse(element.maKhoaHoc)}>Đăng ký</button>
                             </div>
 

@@ -4,6 +4,7 @@ import { layThongTinKhoaHocTimKiemAction } from '../../Redux/Actions/QuanLyKhoaH
 import { NavLink } from 'react-router-dom';
 import './CourseSearch.css'
 import ReactPaginate from 'react-paginate';
+import { spaceNumber } from '../../Commons/handleCommons';
 
 class CourseSearch extends Component {
 
@@ -119,16 +120,16 @@ class CourseSearch extends Component {
 
             return (
                 <div className="row bg-dark my-3 py-3" height={200} key={index}>
-                    <NavLink to={`/ThongTinKhoaHoc/${element.maKhoaHoc}`} className="col-3">
+                    <NavLink to={`/ThongTinKhoaHoc/${encodeURIComponent(element.maKhoaHoc)}`} className="col-3">
                         <img src={element.hinhAnh} height='200' width='100%' alt={element.tenKhoaHoc} />
                     </NavLink>
                     <div className="col-6">
-                        <NavLink to={`/ThongTinKhoaHoc/${element.maKhoaHoc}`}><h3>{element.tenKhoaHoc}</h3></NavLink>
+                        <NavLink to={`/ThongTinKhoaHoc/${encodeURIComponent(element.maKhoaHoc)}`}><h3>{element.tenKhoaHoc}</h3></NavLink>
                         {this.handleView(element.moTa, index)}
 
                     </div>
                     <div className="col-3 text-white">
-                        <p>Lượt xem: {element.luotXem}</p>
+                        <p>Lượt xem: {spaceNumber(element.luotXem)}</p>
                         <p>Số lượng học viên: {element.soLuongHocVien}</p>
                         <p>Ngày tạo: {element.ngayTao}</p>
                     </div>
@@ -138,7 +139,7 @@ class CourseSearch extends Component {
     }
     render() {
 
-
+       
         return (
             <div className='CourseSearch '>
                 <div className="CourseSearch_container container my-5">

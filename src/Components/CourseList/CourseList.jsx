@@ -3,8 +3,10 @@ import { connect } from 'react-redux'
 import ReactPaginate from 'react-paginate';
 import swal from 'sweetalert';
 import './CourseList.css'
-import { layDanhSachKhoaHocPhanTrangAction } from '../../Redux/Actions/QuanLyKhoaHocAction'
-import { dangKyKhoaHocAction } from './../../Redux/Actions/QuanLyNguoiDungAction'
+import { layDanhSachKhoaHocPhanTrangAction, dangKyKhoaHocAction } from '../../Redux/Actions/QuanLyKhoaHocAction'
+import { NavLink } from 'react-router-dom'
+import { spaceNumber } from './../../Commons/handleCommons'
+
 class CourseList extends Component {
 
     constructor(props) {
@@ -40,21 +42,27 @@ class CourseList extends Component {
         this.props.dangKyKhoaHoc(this.props.user.taiKhoan, maKhoaHoc);
 
     }
+
     renderCourseList = () => {
 
         return this.props.mangKhoaHocPhanTrang.map((element, index) => {
             return (
                 <div className="col-3 card-content" key={index}>
                     <div className="card card-detail">
-                        <img className="card-img-top" src={element.hinhAnh} alt={element.tenKhoaHoc} />
+                        <NavLink to={`/ThongTinKhoaHoc/${encodeURIComponent(element.maKhoaHoc)}`}>
+                            <img className="card-img-top" src={element.hinhAnh} alt={element.tenKhoaHoc} />
+                        </NavLink>
+
                         <div className="card-body">
                             <div className="card_header">
-                                <h4 className="card-title">{element.tenKhoaHoc}</h4>
+                                <NavLink to={`/ThongTinKhoaHoc/${encodeURIComponent(element.maKhoaHoc)}`}
+                                    className="card-title">{element.tenKhoaHoc}</NavLink>
                             </div>
                             <div className='card_footer'>
-                                <span><i className="fas fa-eye"></i> {element.luotXem}</span>
+                                <span><i className="fas fa-eye"></i> {spaceNumber(element.luotXem)}</span>
                                 <button className='btn btn_main card_bnt_dangky' onClick={() => this.handleSignUpCourse(element.maKhoaHoc)} >
                                     Đăng ký</button>
+                                {/* <p> {fomatNumber(element.luotXem)}</p> */}
                             </div>
 
                         </div>
@@ -103,7 +111,9 @@ class CourseList extends Component {
     }
 
     render() {
+
         return (
+
             <div className='courseList'>
                 <div className="courseList_container container">
                     <h3>Danh sách các khóa học:</h3>

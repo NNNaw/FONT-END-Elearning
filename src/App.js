@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import './Assets/Css/Base.css' // kiểu chữ
 import './Assets/Scss/main.scss'
 import { Hometemplate } from './Templates/HomeTemplate/HomeTemplate'
+import {AdminTemplate} from './Templates/AdminTemplate/Admintemplate'
 import Contact from './Pages/Contact/Contact'
 import AboutUs from './Pages/AboutUs/AboutUs'
 import CourseCategory from './Pages/CourseCategory/CourseCategory'
@@ -12,6 +13,9 @@ import SignIn from './Pages/SignIn/SignIn'
 import SignUp from './Pages/SignUp/SignUp'
 import Home from './Pages/Home/HomePage'
 import InfoPersonal from './Pages/InfoPersonal/InfoPersonal';
+import Admin from './Pages/Admin/Admin';
+import  CapNhatKhoaHoc  from './Pages/PageUpdate/CapNhatKhoaHoc';
+import  CapNhatNguoiDung  from './Pages/PageUpdate/CapNhatNguoiDung';
 
 function App() {
   return (
@@ -19,6 +23,8 @@ function App() {
       <BrowserRouter>
 
         <Switch>
+          <Hometemplate exact path='/' Component={Home} />
+          <Hometemplate exact path='/TrangChu' Component={Home} />
           <Hometemplate exact path='/contact' Component={Contact} />
           <Hometemplate exact path='/about' Component={AboutUs} />
 
@@ -34,8 +40,9 @@ function App() {
           {/* <Admin exact path='/admin/addcourse' Component={AddCourse} /> */}
           {/* <Admin exact path='/admin/courselist' Component={CourseList} /> */}
 
-          {/* <Admin exact path='/admin' Component={AdminIndex} /> */}
-          <Hometemplate exact path='/' Component={Home} />
+          <AdminTemplate exact path='/Admin/:taiKhoan' Component={Admin} />
+          <AdminTemplate exact path='/CapNhatKhoaHoc/:maKhoaHoc' Component={CapNhatKhoaHoc} />
+          <AdminTemplate exact path='/CapNhatNguoiDung/:taiKhoan' Component={CapNhatNguoiDung} />
         </Switch>
       </BrowserRouter>
     </Fragment>

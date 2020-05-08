@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { layThongTinKhoaHocAction } from '../../Redux/Actions/QuanLyKhoaHocAction'
-import { dangKyKhoaHocAction } from '../../Redux/Actions/QuanLyNguoiDungAction'
+import { layThongTinKhoaHocAction, dangKyKhoaHocAction } from '../../Redux/Actions/QuanLyKhoaHocAction'
 import swal from 'sweetalert'
+import { spaceNumber } from '../../Commons/handleCommons'
 class CourseDetail extends Component {
 
     constructor(props) {
@@ -46,7 +46,7 @@ class CourseDetail extends Component {
                         </div>
                         <div className="courseDetail_banner_info">
                             <p>{tenKhoaHoc}</p>
-                            <p><i class="fa fa-eye"></i> {luotXem}</p>
+                            <p><i className="fa fa-eye"></i> {spaceNumber(luotXem)}</p>
                             <button className='btn btn_main courseDetail_bnt_dangky' onClick={() => this.handleSignUpCourse(maKhoaHoc)}>Đăng ký</button>
                         </div>
                     </div>

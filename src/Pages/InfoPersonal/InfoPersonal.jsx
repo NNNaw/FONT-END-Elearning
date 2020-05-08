@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { layThongtinTaiKhoanAction, CapNhatThongTinNguoiDungAction } from '../../Redux/Actions/QuanLyNguoiDungAction';
 import { layDanhSachKhoaHocAction, huyGhiDanhAction } from '../../Redux/Actions/QuanLyKhoaHocAction';
 import { NavLink } from 'react-router-dom';
+import { spaceNumber } from '../../Commons/handleCommons';
 
 class InfoPersonal extends Component {
 
@@ -27,7 +28,7 @@ class InfoPersonal extends Component {
 
 
     componentDidMount() {
-        console.log("didMount")
+
         this.props.layThongTinTaiKhoan(this.state.user.taiKhoan);
         this.props.layDanhSachKhoaHoc();
 
@@ -43,7 +44,7 @@ class InfoPersonal extends Component {
         });
     }
     setStateUser = () => {
-        let { email, soDT, hoTen, maLoaiNguoiDung, matKhau ,taiKhoan} = this.props.thongTinTaiKhoan;
+        let { email, soDT, hoTen, maLoaiNguoiDung, matKhau, taiKhoan } = this.props.thongTinTaiKhoan;
         this.setState({
             user: {
                 soDT: soDT,
@@ -51,7 +52,7 @@ class InfoPersonal extends Component {
                 hoTen: hoTen,
                 maLoaiNguoiDung: maLoaiNguoiDung,
                 matKhau: matKhau,
-                taiKhoan : taiKhoan
+                taiKhoan: taiKhoan
             }
         });
     }
@@ -86,22 +87,22 @@ class InfoPersonal extends Component {
                                 <div className="modal-body">
                                     <div className="form-group">
                                         <span >Tài Khoản: </span>
-                                        <input className='form-control' type="text" value={this.state.user.taiKhoan} disabled/>
-                                       
+                                        <input className='form-control' type="text" value={this.state.user.taiKhoan} disabled />
+
                                         <span >Mật khẩu: </span>
                                         <input className='form-control' type="text" value={this.state.user.matKhau} name='matKhau' onChange={this.handleInfoChange} />
 
                                         <span >Họ tên: </span>
                                         <input className='form-control' type="text" value={this.state.user.hoTen} name='hoTen' onChange={this.handleInfoChange} />
-                                       
+
                                         <span >Email: </span>
                                         <input className='form-control' type="text" value={this.state.user.email} name='email' onChange={this.handleInfoChange} />
-                                      
+
                                         <span >Số điện thoại: </span>
                                         <input className='form-control' type="text" value={this.state.user.soDT} name='soDT' onChange={this.handleInfoChange} />
-                                       
+
                                         <span >Loại người dùng: </span>
-                                        <input className='form-control' type="text" value={this.state.user.maLoaiNguoiDung} disabled/>
+                                        <input className='form-control' type="text" value={this.state.user.maLoaiNguoiDung} disabled />
                                     </div>
 
                                 </div>
@@ -127,7 +128,7 @@ class InfoPersonal extends Component {
                     <button id='btn_personal_search' className='btn btn-danger' onClick={() => this.renderInfoCourse()}>Tìm</button>
                 </div>
 
-                {this.renderInfoCourse()}
+                {this.props.chiTietKhoaHocGhiDanh.length === 0 ? <div className='p-5'><h4>Bạn chưa đăng ký khóa học nào...</h4></div> : this.renderInfoCourse()}
             </div>
         )
     }
@@ -147,10 +148,9 @@ class InfoPersonal extends Component {
     fullInfoCourse = () => {
 
         let { mangKhoaHoc, chiTietKhoaHocGhiDanh } = this.props
-        console.log("GHI Danh : ", chiTietKhoaHocGhiDanh)
-        console.log("mang khoa hoc : ", mangKhoaHoc)
+
         let array = this.fillArray(chiTietKhoaHocGhiDanh, mangKhoaHoc)
-        console.log("fil khoa hoc : ", array)
+
         return array;
 
     }
@@ -209,7 +209,7 @@ class InfoPersonal extends Component {
                         <p>Loại: {element.danhMucKhoaHoc.tenDanhMucKhoaHoc}</p>
                         <p>Người tạo: {element.nguoiTao.hoTen}</p>
                         <p>Số lượng học viên: {element.soLuongHocVien}</p>
-                        <p>Lượt xem: {element.luotXem}</p>
+                        <p>Lượt xem: {spaceNumber(element.luotXem)}</p>
                         <p>Ngày tạo: {element.ngayTao}</p>
                     </div>
                 </div >
@@ -274,12 +274,12 @@ class InfoPersonal extends Component {
 
 
     render() {
-        
+
         return (
             <div className='info_personal'>
-               
+
                 <div className='bg-dark p-5'></div>
-                 <NavLink to={'/'} className='btn btn-warning'><i className="fa fa-home"></i></NavLink>
+                <NavLink to={'/'} className='btn btn-warning'><i className="fa fa-home"></i></NavLink>
                 <div className="info_personal_container container">
                     <div className="row py-5">
                         <div>

@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom"
 import Logo from './../../Assets/Images/LogoEducation.png'
 import { connect } from 'react-redux'
 import { layDanhMucKhoaHocAction } from './../../Redux/Actions/QuanLyKhoaHocAction'
+
 class Header extends Component {
 
     constructor(props) {
@@ -11,6 +12,7 @@ class Header extends Component {
             user: {
                 taiKhoan: '',
                 hoTen: '',
+                maLoaiNguoiDung: '',
             },
             danhMuc: {
                 maDanhMuc: '',
@@ -24,6 +26,7 @@ class Header extends Component {
     }
     componentDidMount = () => {
         this.props.layDanhMucKhoaHoc();
+
         this.checkUser();
     }
     checkUser = () => {
@@ -33,6 +36,7 @@ class Header extends Component {
             user: {
                 taiKhoan: this.props.user.taiKhoan,
                 hoTen: this.props.user.hoTen,
+                maLoaiNguoiDung : this.props.user.maLoaiNguoiDung
             }
         })
     }
@@ -48,7 +52,7 @@ class Header extends Component {
         } else {
             return (
                 <div className="btn-group_Sign d-flex align-sefl-center">
-                    <NavLink to={`/ThongTinCaNhan/${this.props.user.taiKhoan}`} className='hello-title btn btn_Sign mr-1'>Xin chào, <span>{this.state.user.hoTen}</span></NavLink>
+                    <NavLink to={`/ThongTinCaNhan/${this.state.user.taiKhoan}`} className='hello-title btn btn_Sign mr-1'>Xin chào, <span>{this.state.user.hoTen}</span></NavLink>
                     <button className="btn btn_Sign" onClick={() => { this.props.dangXuatNguoiDung() }}>
                         Đăng xuất
                     </button>
@@ -84,13 +88,18 @@ class Header extends Component {
                 ...this.state.khoaHoc, [name]: value
             }
         });
-       
+
     }
     handleKeyUp = (event) => {
         if (event.key === "Enter") {
             document.getElementById('nav').click();
         }
-       
+
+    }
+    renderAdmin = (taiKhoan) => {
+        return (
+            <NavLink to={`/Admin/${taiKhoan}`} className='btn btn-sign'>Admin</NavLink>
+        )
     }
     render() {
         return (
@@ -122,13 +131,18 @@ class Header extends Component {
                         </ul>
 
                         <form className="form-inline">
-                            <input className="form-control" type="search" placeholder="Search" aria-label="Search" 
-                            value={this.state.khoaHoc.tenKhoaHoc} name='tenKhoaHoc' id='inputSearch' onChange={this.handleChange} onKeyDown={this.handleKeyUp} />
+                            <input className="form-control" type="search" placeholder="Search" aria-label="Search"
+                                value={this.state.khoaHoc.tenKhoaHoc} name='tenKhoaHoc' id='inputSearch' onChange={this.handleChange} onKeyDown={this.handleKeyUp} />
                             <NavLink id='nav' to={`/TimKiemKhoaHoc/${encodeURIComponent(this.state.khoaHoc.tenKhoaHoc)}`} className="btn btn-search">
                                 <i className="fas fa-search"></i>
                             </NavLink>
                         </form>
                         {this.renderButton()}
+                        
+                        {this.state.user.maLoaiNguoiDung === 'GV' &&
+                            this.renderAdmin(this.state.user.taiKhoan)
+                        }
+
                     </div>
                 </nav>
             </div>
@@ -140,7 +154,8 @@ const mapStateToProp = state => {
     return {
         user: state.QuanLyNguoiDungReducer.user,
         logOut: state.QuanLyNguoiDungReducer.logOut,
-        mangDanhMucKhoaHoc: state.QuanLyKhoaHocReducer.mangDanhMucKhoaHoc
+        mangDanhMucKhoaHoc: state.QuanLyKhoaHocReducer.mangDanhMucKhoaHoc,
+
     }
 }
 
@@ -153,7 +168,8 @@ const mapDispatchToProps = (dispatch) => {
         },
         layDanhMucKhoaHoc: () => {
             dispatch(layDanhMucKhoaHocAction())
-        }
+        },
+
     }
 }
 
