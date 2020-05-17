@@ -1,6 +1,6 @@
-import { actionType } from '../Contants/QuanLyKhoaHocConstant';
+import { actionTypes } from '../Contants/QuanLyKhoaHocConstant';
 import { settings } from '../../Commons/Settings';
-import { layThongtinTaiKhoanAction } from './QuanLyNguoiDungAction'
+import { layThongtinTaiKhoanAction, layDanhSachHocVienChoXetDuyetDuaVaoKhoaHocAction, LayDanhSachHocVienDaXetDuyetDuaVaoKhoaHocAction, LayDanhSachKhoaHocDaXetDuyetDuaVaoHocVienAction, LayDanhSachKhoaHocChoXetDuyetDuaVaoHocVienAction } from './QuanLyNguoiDungAction'
 import axios from 'axios';
 import swal from 'sweetalert'
 
@@ -12,7 +12,7 @@ export const layDanhMucKhoaHocAction = () => {
     }).then(result => {
       //Đưa mangDanhMucKhoaHoc => Reducer
       dispatch({
-        type: actionType.LAY_DANH_MUC_KHOA_HOC,
+        type: actionTypes.LAY_DANH_MUC_KHOA_HOC,
         mangDanhMucKhoaHoc: result.data
       });
     }).catch(error => {
@@ -28,8 +28,9 @@ export const layDanhSachKhoaHocAction = () => {
       method: 'get'
     }).then(result => {
       //Đưa mangDanhMucKhoaHoc => Reducer
+      console.log("dnahsach")
       dispatch({
-        type: actionType.LAY_DANH_SACH_KHOA_HOC,
+        type: actionTypes.LAY_DANH_SACH_KHOA_HOC,
         mangKhoaHoc: result.data
       });
     }).catch(error => {
@@ -46,9 +47,8 @@ export const layDanhSachKhoaHocPhanTrangAction = (offset, perPage, set) => {
       //Đưa mangDanhMucKhoaHoc => Reducer
       const data = result.data;
       const dataSliced = data.slice(offset, offset + perPage)
-
       dispatch({
-        type: actionType.LAY_DANH_SACH_KHOA_HOC_PHAN_TRANG,
+        type: actionTypes.LAY_DANH_SACH_KHOA_HOC_PHAN_TRANG,
         mangKhoaHocPhanTrang: dataSliced
       });
 
@@ -63,11 +63,11 @@ export const layThongTinKhoaHocAction = (maKhoaHoc) => {
   return dispatch => {
     axios({
       url: settings.domain + `/QuanLyKhoaHoc/LayThongTinKhoaHoc?maKhoaHoc=${maKhoaHoc}`,
-      type: 'GET'
+      method: 'GET'
     }).then(result => {
       console.log(result.data)
       dispatch({
-        type: actionType.LAY_THONG_TIN_KHOA_HOC,
+        type: actionTypes.LAY_THONG_TIN_KHOA_HOC,
         thongTinKhoaHoc: result.data
       })
     }).catch(error => {
@@ -75,18 +75,40 @@ export const layThongTinKhoaHocAction = (maKhoaHoc) => {
     })
   }
 }
+
+export const timKiemThongTinKhoaHocAction = (tenKhoaHoc) => {
+  return dispatch => {
+    axios({
+      url: settings.domain + `/QuanLyKhoaHoc/LayDanhSachKhoaHoc?tenKhoaHoc=${tenKhoaHoc}&MaNhom=${settings.groupID}`,
+      method: 'GET'
+    }).then(result => {
+
+
+      dispatch({
+        type: actionTypes.LAY_THONG_TIN_KHOA_HOC_TIM_KIEM,
+        mangKhoaHocTimKiem: result.data
+      })
+
+
+    }).catch(error => {
+      console.log(error.response.data)
+
+    })
+  }
+}
+
 export const layThongTinKhoaHocTimKiemAction = (tenKhoaHoc, errorSearch, offset, perPage, set) => {
   return dispatch => {
     axios({
       url: settings.domain + `/QuanLyKhoaHoc/LayDanhSachKhoaHoc?tenKhoaHoc=${tenKhoaHoc}&MaNhom=${settings.groupID}`,
-      type: 'GET'
+      method: 'GET'
     }).then(result => {
 
       const data = result.data;
       const dataSliced = data.slice(offset, offset + perPage)
 
       dispatch({
-        type: actionType.LAY_THONG_TIN_KHOA_HOC_TIM_KIEM,
+        type: actionTypes.LAY_THONG_TIN_KHOA_HOC_TIM_KIEM,
         mangKhoaHocTimKiem: dataSliced
       })
 
@@ -101,11 +123,11 @@ export const layDanhSachKhoaHocTheoDanhMucAction = (maDanhMuc) => {
   return dispatch => {
     axios({
       url: settings.domain + `/QuanLyKhoaHoc/LayKhoaHocTheoDanhMuc?maDanhMuc=${maDanhMuc}&MaNhom=${settings.groupID}`,
-      type: 'GET'
+      method: 'GET'
     }).then(result => {
 
       dispatch({
-        type: actionType.LAY_DANH_DANH_SACH_KHOA_HOC_THEO_DANH_MUC,
+        type: actionTypes.LAY_DANH_DANH_SACH_KHOA_HOC_THEO_DANH_MUC,
         mangKhoaHocTheoDanhMuc: result.data
       })
 
@@ -115,23 +137,6 @@ export const layDanhSachKhoaHocTheoDanhMucAction = (maDanhMuc) => {
   }
 }
 
-
-// export const themKhoaHocAction = (khoaHoc) => {
-//   return dispatch => {
-//     axios({
-//       url: settings.domain + `/QuanLyKhoaHoc/ThemKhoaHoc`,
-//       method: 'post',
-//       data: { ...khoaHoc, maNhom: settings.groupID, ngayTao: '10/10/2019' },
-//       headers: {
-//         "Authorization": "Bearer " + localStorage.getItem(settings.token)
-//       }
-//     }).then(result => {
-//       console.log(result.data);
-//     }).catch(error => {
-//       console.log(error.response.data);
-//     })
-//   }
-// }
 export const dangKyKhoaHocAction = (taiKhoan, maKhoaHoc) => {
 
   return dispatch => {
@@ -179,12 +184,20 @@ export const huyGhiDanhAction = (maKhoaHoc, taiKhoan) => {
       }
 
     }).then(result => {
-      dispatch(layThongtinTaiKhoanAction(taiKhoan))
+
+      dispatch(layThongtinTaiKhoanAction(taiKhoan)) //,
+
+      dispatch(layDanhSachHocVienChoXetDuyetDuaVaoKhoaHocAction(maKhoaHoc))
+      dispatch(LayDanhSachHocVienDaXetDuyetDuaVaoKhoaHocAction(maKhoaHoc))
+
+      dispatch(LayDanhSachKhoaHocChoXetDuyetDuaVaoHocVienAction(taiKhoan))
+      dispatch(LayDanhSachKhoaHocDaXetDuyetDuaVaoHocVienAction(taiKhoan))
 
       swal({
         icon: "success",
         title: "Hủy thành công",
-
+        timer: 500,
+        buttons: false,
       })
 
     }).catch(error => {
@@ -192,7 +205,7 @@ export const huyGhiDanhAction = (maKhoaHoc, taiKhoan) => {
       console.log(error.response.data);
       swal({
         icon: "warning",
-        title: "Đăng ký không thành công.",
+        title: "Hủy đăng ký không thành công.",
         text: error.response.data,
         dangerMode: true,
       });
@@ -200,13 +213,31 @@ export const huyGhiDanhAction = (maKhoaHoc, taiKhoan) => {
   }
 }
 
-export const themKhoaHocAction = (khoaHoc, clearField) => {
+const GetFormattedInfo = () => {
+  var today = new Date();
+  var dd = today.getDate();
+
+  var mm = today.getMonth() + 1;
+  var yyyy = today.getFullYear();
+  if (dd < 10) {
+    dd = '0' + dd;
+  }
+
+  if (mm < 10) {
+    mm = '0' + mm;
+  }
+  return dd + "/" + mm + "/" + yyyy;
+}
+
+export const themKhoaHocAction = (khoaHoc, clearField, file) => {
+  let NgayTao = GetFormattedInfo()
+  console.log(khoaHoc)
   return dispatch => {
     axios({
       url: settings.domain + '/QuanLyKhoaHoc/ThemKhoaHoc',
       method: 'POST',
       data: {
-        ...khoaHoc
+        ...khoaHoc, ngayTao: NgayTao
       },
       headers: {
         "Authorization": "Bearer " + localStorage.getItem(settings.token)
@@ -214,6 +245,7 @@ export const themKhoaHocAction = (khoaHoc, clearField) => {
     }).then(result => {
       console.log(result.data)
       dispatch(layDanhSachKhoaHocAction())
+      dispatch(upLoadHinhAnhKhoaHocAction(khoaHoc, file))
       clearField();
       swal({
         icon: "success",
@@ -233,7 +265,36 @@ export const themKhoaHocAction = (khoaHoc, clearField) => {
   }
 }
 
-export const xoaKhoaHocAction = (maKhoaHoc) => {
+export const upLoadHinhAnhKhoaHocAction = (khoaHoc, file) => {
+
+  console.log(khoaHoc, file)
+  if (file === '') return
+  let formData = new FormData();
+
+  formData.append('file', file);
+  formData.append('tenKhoaHoc', khoaHoc.tenKhoaHoc);
+
+  return dispatch => {
+    axios({
+      url: settings.domain + `/QuanLyKhoaHoc/UploadHinhAnhKhoaHoc`,
+      method: 'POST',
+
+      data: formData,
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem(settings.token)
+      }
+
+    }).then(result => {
+      console.log(result.data)
+    }).catch(error => {
+
+      console.log(error.response.data)
+
+    })
+  }
+}
+
+export const xoaKhoaHocAction = (maKhoaHoc, offset, perPage, set) => {
   return dispatch => {
     axios({
       url: settings.domain + `/QuanLyKhoaHoc/XoaKhoaHoc?MaKhoaHoc=${encodeURIComponent(maKhoaHoc)}`,
@@ -245,8 +306,7 @@ export const xoaKhoaHocAction = (maKhoaHoc) => {
 
     }).then(result => {
       console.log(result.data)
-      dispatch(layDanhSachKhoaHocAction())
-
+      dispatch(layDanhSachKhoaHocPhanTrangAction(offset, perPage, set))
       swal({
         icon: "success",
         title: result.data,
@@ -266,12 +326,8 @@ export const xoaKhoaHocAction = (maKhoaHoc) => {
   }
 }
 
+export const capNhatKhoaHocAction = (khoaHoc, file) => {
 
-
-export const capNhatKhoaHocAction = (khoaHoc) => {
-
-
-  console.log(khoaHoc)
   return dispatch => {
     axios({
       url: settings.domain + `/QuanLyKhoaHoc/CapNhatKhoaHoc`,
@@ -285,7 +341,9 @@ export const capNhatKhoaHocAction = (khoaHoc) => {
     }).then(result => {
       console.log(result.data)
       dispatch(layDanhSachKhoaHocAction())
-
+      if (file !== '') {
+        dispatch(upLoadHinhAnhKhoaHocAction(khoaHoc, file))
+      }
       swal({
         icon: "success",
         title: "Cập nhật thành công!",
@@ -304,3 +362,41 @@ export const capNhatKhoaHocAction = (khoaHoc) => {
     })
   }
 }
+
+
+export const xacThucGhiDanhKhoaHocDuaVaoKhoaHocAction = (maKhoaHoc, taiKhoan) => {
+
+  return dispatch => {
+    axios({
+      url: settings.domain + `/QuanLyKhoaHoc/GhiDanhKhoaHoc`,
+      method: 'POST',
+      data: { "maKhoaHoc": maKhoaHoc, "taiKhoan": taiKhoan },
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem(settings.token)
+      }
+    }).then(result => {
+      console.log(result.data)
+      dispatch(layDanhSachHocVienChoXetDuyetDuaVaoKhoaHocAction(maKhoaHoc))
+      dispatch(LayDanhSachHocVienDaXetDuyetDuaVaoKhoaHocAction(maKhoaHoc))
+
+      dispatch(LayDanhSachKhoaHocChoXetDuyetDuaVaoHocVienAction(taiKhoan))
+      dispatch(LayDanhSachKhoaHocDaXetDuyetDuaVaoHocVienAction(taiKhoan))
+
+      swal({
+        icon: "success",
+        title: result.data,
+        timer: 1000,
+        buttons: false
+      })
+    }).catch(error => {
+      console.log(error.response.data)
+      swal({
+        icon: "warning",
+        title: "Thông báo!!!",
+        text: error.response.data,
+        dangerMode: true,
+      });
+    })
+  }
+}
+

@@ -22,6 +22,7 @@ class CapNhatKhoaHoc extends Component {
                 maDanhMucKhoaHoc: "",
                 taiKhoanNguoiTao: "",
             },
+            file: '',
         }
     }
 
@@ -35,6 +36,18 @@ class CapNhatKhoaHoc extends Component {
     handleChange = (e) => {
         let { value, name } = e.target;
 
+
+        if (name === 'hinhAnh') {
+            value = value.split(/(\\|\/)/g).pop()
+            let file = e.target.files[0]
+            this.setState({
+                file: file,
+
+            }, () => {
+                console.log(file)
+            });
+        }
+
         this.setState({
             khoaHoc: { ...this.state.khoaHoc, [name]: value }
         }, () => {
@@ -45,7 +58,7 @@ class CapNhatKhoaHoc extends Component {
     render() {
         return (
             <div className='container py-5'>
-                <NavLink to={'/Admin'} className='btn btn-warning'>  Admin </NavLink>
+                <h2 className='text-center'>Cập Nhật Khóa Học</h2>
                 <form onSubmit={this.handleSubmit}>
                     <div className="row">
                         <div className="col-md-6">
@@ -55,13 +68,10 @@ class CapNhatKhoaHoc extends Component {
                                 <input className="form-control" name="tenKhoaHoc" value={this.state.khoaHoc.tenKhoaHoc} onChange={this.handleChange} />
                             </div>
 
-                            <div className="form-group">
-                                <h3>Mô tả</h3>
-                                <input className="form-control" name="moTa" value={this.state.khoaHoc.moTa} onChange={this.handleChange} />
-                            </div>
+
                             <div className="form-group">
                                 <h3>Hình ảnh</h3>
-                                <input className="form-control" name="hinhAnh" value={this.state.khoaHoc.hinhAnh} onChange={this.handleChange} />
+                                <input type='file' accept="image/png, image/jpg, image/jpeg" id='hinhAnh' name='hinhAnh' className="form-control" onChange={this.handleChange} />
                             </div>
                             <div className="form-group">
                                 <h3>Danh mục khoá học</h3>
@@ -74,12 +84,13 @@ class CapNhatKhoaHoc extends Component {
                                 </select>
                             </div>
                             <div className="form-group">
-                                <button type="submit" className="btn btn-success" onClick={() => this.props.capNhatKhoaHoc(this.state.khoaHoc)}>Cập nhật khoá học</button>
+                                <h3>Mô tả</h3>
+                                <textarea className='form-control' name="moTa" id="moTa" rows="5" value={this.state.khoaHoc.mota} onChange={this.handleChange}></textarea>
+
                             </div>
+
                         </div>
                         <div className="col-md-6">
-
-
                             <div className="form-group">
                                 <h3>Mã khoá học</h3>
                                 <input disabled className="form-control" name="maKhoaHoc" value={this.state.khoaHoc.maKhoaHoc} onChange={this.handleChange} />
@@ -104,7 +115,19 @@ class CapNhatKhoaHoc extends Component {
                         </div>
 
                     </div>
+                    <div className="row">
+                        <div className="col-6">
+                            <div className="form-group">
+                                <NavLink to={'/TabQuanLyKhoaHoc'} className='btn btn-primary' > &#60;= Trở về</NavLink>
 
+                            </div>
+                        </div>
+                        <div className="col-6">
+                            <div className="form-group">
+                                <button type="submit" className="btn btn-success" onClick={() => this.props.capNhatKhoaHoc(this.state.khoaHoc, this.state.file)}>Cập nhật khoá học</button>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         )
@@ -115,7 +138,6 @@ class CapNhatKhoaHoc extends Component {
 
     componentDidMount() {
         let { maKhoaHoc } = this.props.match.params;
-
         this.props.layThongTinKhoaHoc(maKhoaHoc);
         this.props.layDanhMucKhoaHoc();
     }
@@ -132,6 +154,7 @@ class CapNhatKhoaHoc extends Component {
                     tenKhoaHoc: thongTinKhoaHoc.tenKhoaHoc,
                     moTa: thongTinKhoaHoc.moTa,
                     hinhAnh: thongTinKhoaHoc.hinhAnh,
+                    //hinhAnh:'',   
                     luotXem: 0,
                     danhGia: 0,
                     maNhom: settings.groupID,
@@ -164,8 +187,8 @@ const mapDispatchToProps = (dispatch) => {
         layDanhMucKhoaHoc: () => {
             dispatch(layDanhMucKhoaHocAction())
         },
-        capNhatKhoaHoc: (khoaHoc) => {
-            dispatch(capNhatKhoaHocAction(khoaHoc))
+        capNhatKhoaHoc: (khoaHoc, file) => {
+            dispatch(capNhatKhoaHocAction(khoaHoc, file))
         },
 
         layThongTinTaiKhoan: (taiKhoan) => {

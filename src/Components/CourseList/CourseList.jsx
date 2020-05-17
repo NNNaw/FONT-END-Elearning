@@ -78,7 +78,9 @@ class CourseList extends Component {
 
         const selectedPage = e.selected;
         const offset = selectedPage * this.state.perPage;
-        console.log(selectedPage)
+        console.log(offset)
+        console.log(this.state.perPage)
+       
         this.setState({
             currentPage: selectedPage,
             offset: offset

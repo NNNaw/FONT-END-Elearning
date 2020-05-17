@@ -300,11 +300,13 @@ class InfoPersonal extends Component {
                                     {this.renderTabCourse()}
 
                                 </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div >
+
         );
     }
 }

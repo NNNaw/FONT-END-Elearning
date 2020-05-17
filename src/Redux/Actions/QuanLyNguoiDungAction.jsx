@@ -58,8 +58,8 @@ export const dangKyNguoiDungAction = (user, handleClear) => {
     }
 }
 
-
 export const layThongtinTaiKhoanAction = (taiKhoan) => {
+
 
     return dispatch => {
         axios({
@@ -123,7 +123,7 @@ export const layDanhSachNguoiTaoAction = () => {
             //Sau khi lấy dữ liệu người dùng về từ api => đưa dữ liệu lên reducer
             dispatch({
                 type: actionTypes.LAY_DANH_SACH_NGUOI_TAO,
-                mangNguoiDungGV : result.data.filter(nd => nd.maLoaiNguoiDung === 'GV')
+                mangNguoiDungGV: result.data.filter(nd => nd.maLoaiNguoiDung === 'GV')
             })
 
         }).catch(error => {
@@ -132,32 +132,53 @@ export const layDanhSachNguoiTaoAction = () => {
     }
 }
 
-export const layDanhSachNguoiDungAction = () =>{
-    return dispatch =>{
+export const layDanhSachNguoiDungAction = () => {
+    return dispatch => {
         axios({
-            url : settings.domain + `/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=${settings.groupID}`,
-            method : 'GET'
-        }).then(result=> {
-            
+            url: settings.domain + `/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=${settings.groupID}`,
+            method: 'GET'
+        }).then(result => {
+
             dispatch({
-                type : actionTypes.LAY_DANH_SACH_NGUOI_DUNG,
-                mangNguoiDung : result.data
+                type: actionTypes.LAY_DANH_SACH_NGUOI_DUNG,
+                mangNguoiDung: result.data
             })
         }).catch(error => {
             console.log(error.response.data);
         })
     }
 }
-export const layDanhSachLoaiNguoiDungAction = () =>{
-    return dispatch =>{
+export const layDanhSachNguoiDungPhanTrangAction = (offset, perPage, set) => {
+
+    return dispatch => {
         axios({
-            url : settings.domain + `/QuanLyNguoiDung/LayDanhSachLoaiNguoiDung`,
-            method : 'GET'
-        }).then(result=> {
-            
+            url: settings.domain + `/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=${settings.groupID}`,
+            method: 'GET'
+        }).then(result => {
+            const data = result.data;
+            const dataSliced = data.slice(offset, offset + perPage)
+
             dispatch({
-                type : actionTypes.LAY_DANH_SACH_LOAI_NGUOI_DUNG,
-                mangLoaiNguoiDung : result.data
+                type: actionTypes.LAY_DANH_SACH_NGUOI_DUNG_PHAN_TRANG,
+                mangNguoiDungPhanTrang: dataSliced
+            })
+            const count = Math.ceil(data.length / perPage)
+            set(count)
+        }).catch(error => {
+            console.log(error.response.data);
+        })
+    }
+}
+export const layDanhSachLoaiNguoiDungAction = () => {
+    return dispatch => {
+        axios({
+            url: settings.domain + `/QuanLyNguoiDung/LayDanhSachLoaiNguoiDung`,
+            method: 'GET'
+        }).then(result => {
+
+            dispatch({
+                type: actionTypes.LAY_DANH_SACH_LOAI_NGUOI_DUNG,
+                mangLoaiNguoiDung: result.data
             })
         }).catch(error => {
             console.log(error.response.data);
@@ -165,8 +186,7 @@ export const layDanhSachLoaiNguoiDungAction = () =>{
     }
 }
 
-
-export const themNguoiDungAction = (user,clearField) => {
+export const themNguoiDungAction = (user, clearField) => {
 
     return dispatch => {
         axios({
@@ -185,7 +205,7 @@ export const themNguoiDungAction = (user,clearField) => {
             swal({
                 icon: "success",
                 title: "Thêm thành công",
-                timer : 1000,
+                timer: 1000,
                 buttons: false
             })
         }).catch(error => {
@@ -206,18 +226,18 @@ export const xoaNguoiDungAction = (taiKhoan) => {
         axios({
             url: settings.domain + `/QuanLyNguoiDung/XoaNguoiDung?TaiKhoan=${taiKhoan}`,
             method: 'DELETE',
-            
+
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem(settings.token)
             }
         }).then(result => {
             console.log(result.data)
             dispatch(layDanhSachNguoiDungAction())
-           
+
             swal({
                 icon: "success",
                 title: "Thêm thành công",
-                timer : 1000,
+                timer: 1000,
                 buttons: false
             })
         }).catch(error => {
@@ -230,4 +250,171 @@ export const xoaNguoiDungAction = (taiKhoan) => {
             });
         })
     }
-  }
+}
+
+export const timKiemNguoiDungAction = (key) => {
+
+    return dispatch => {
+        axios({
+            url: settings.domain + `/QuanLyNguoiDung/TimKiemNguoiDung?MaNhom=${settings.groupID}&tuKhoa=${key}`,
+            method: 'get',
+
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem(settings.token)
+            }
+        }).then(result => {
+
+
+            dispatch({
+                type: actionTypes.TIM_KIEM_NGUOI_DUNG,
+                mangTimKiemNguoiDung: result.data
+
+            })
+
+        }).catch(error => {
+            console.log(error.response)
+
+        })
+    }
+}
+
+export const layDanhSachHocVienChoXetDuyetDuaVaoKhoaHocAction = (maKhoaHoc) => {
+    // console.log(offset, perPage)
+    return dispatch => {
+        axios({
+
+            url: settings.domain + `/QuanLyNguoiDung/LayDanhSachHocVienChoXetDuyet`,
+            method: 'POST',
+            data: {
+                "MaKhoaHoc": maKhoaHoc
+            },
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem(settings.token)
+            }
+        }).then(result => {
+
+            dispatch({
+                type: actionTypes.LAY_DANH_SACH_HOC_VIEN_CHO_XET_DUYET_DUA_VAO_KHOA_HOC,
+                mangHocVienChoXetDuyetDuaVaoKhoaHoc: result.data
+            })
+
+        }).catch(error => {
+            console.log(error.response.data)
+        })
+    }
+}
+
+export const LayDanhSachHocVienDaXetDuyetDuaVaoKhoaHocAction = (maKhoaHoc) => {
+
+    return dispatch => {
+        axios({
+            url: settings.domain + `/QuanLyNguoiDung/LayDanhSachHocVienKhoaHoc`,
+            method: 'POST',
+            data: { "MaKhoaHoc": maKhoaHoc },
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem(settings.token)
+            }
+        }).then(result => {
+
+            dispatch({
+                type: actionTypes.LAY_DANH_SACH_HOC_VIEN_DA_XET_DUYET_DUA_VAO_KHOA_HOC,
+                mangHocVienDaXetDuyetDuaVaoKhoaHoc: result.data
+            })
+
+        }).catch(error => {
+            console.log(error.response.data)
+        })
+    }
+}
+
+export const LayDanhSachKhoaHocChoXetDuyetDuaVaoHocVienAction = (taiKhoan) => {
+
+    return dispatch => {
+        axios({
+            url: settings.domain + `/QuanLyNguoiDung/LayDanhSachKhoaHocChoXetDuyet`,
+            method: 'POST',
+            data: { "TaiKhoan": taiKhoan },
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem(settings.token)
+            }
+        }).then(result => {
+
+            dispatch({
+                type: actionTypes.LAY_DANH_SACH_KHOA_HOC_CHO_XET_DUYET_DUA_VAO_HOC_VIEN,
+                mangKhoaHocChoXetDuyetDuaVaoHocVien: result.data
+            })
+
+        }).catch(error => {
+            console.log(error.response.data)
+        })
+    }
+}
+
+export const LayDanhSachKhoaHocDaXetDuyetDuaVaoHocVienAction = (taiKhoan) => {
+
+    console.log(taiKhoan)
+    return dispatch => {
+        axios({
+            url: settings.domain + `/QuanLyNguoiDung/LayDanhSachKhoaHocDaXetDuyet`,
+            method: 'POST',
+            data: { "TaiKhoan": taiKhoan },
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem(settings.token)
+            }
+        }).then(result => {
+
+            dispatch({
+                type: actionTypes.LAY_DANH_SACH_KHOA_HOC_DA_XET_DUYET_DUA_VAO_HOC_VIEN,
+                mangKhoaHocDaXetDuyetDuaVaoHocVien: result.data
+            })
+
+        }).catch(error => {
+            console.log(error.response.data)
+        })
+    }
+}
+export const LayDanhSachHocVienChuaXetDuyetDuaVaoKhoaHocAction = (maKhoaHoc) => {
+
+    return dispatch => {
+        axios({
+            url: settings.domain + `/QuanLyNguoiDung/LayDanhNguoiDungChuaGhiDanh`,
+            method: 'POST',
+            data: { "MaKhoaHoc": maKhoaHoc },
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem(settings.token)
+            }
+        }).then(result => {
+
+            dispatch({
+                type: actionTypes.LAY_DANH_SACH_HOC_VIEN_CHUA_XET_DUYET_DUA_VAO_KHOA_HOC,
+                mangHocVienChuaXetDuyetDuaVaoKhoaHoc: result.data
+            })
+
+        }).catch(error => {
+            console.log(error.response.data)
+        })
+    }
+}
+
+export const LayDanhSachKhoaHocChuaXetDuyetDuaVaoHocVienAction = (taiKhoan) => {
+
+    return dispatch => {
+        axios({
+            url: settings.domain + `/QuanLyNguoiDung/LayDanhSachKhoaHocChuaGhiDanh`,
+            method: 'POST',
+            data: { "TaiKhoan": taiKhoan },
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem(settings.token)
+            }
+        }).then(result => {
+
+            dispatch({
+                type: actionTypes.LAY_DANH_SACH_KHOA_HOC_CHUA_XET_DUYET_DUA_VAO_HOC_VIEN,
+                mangKhoaHocChuaXetDuyetDuaVaoHocVien: result.data
+            })
+
+        }).catch(error => {
+            console.log(error.response.data)
+        })
+    }
+}

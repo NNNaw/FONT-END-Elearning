@@ -96,9 +96,9 @@ class Header extends Component {
         }
 
     }
-    renderAdmin = (taiKhoan) => {
+    renderAdmin = () => {
         return (
-            <NavLink to={`/Admin/${taiKhoan}`} className='btn btn-sign'>Admin</NavLink>
+            <NavLink to={`/Admin`} className='btn btn-sign'>Admin</NavLink>
         )
     }
     render() {
@@ -140,7 +140,7 @@ class Header extends Component {
                         {this.renderButton()}
                         
                         {this.state.user.maLoaiNguoiDung === 'GV' &&
-                            this.renderAdmin(this.state.user.taiKhoan)
+                            this.renderAdmin()
                         }
 
                     </div>

@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import './Assets/Css/Base.css' // kiểu chữ
 import './Assets/Scss/main.scss'
 import { Hometemplate } from './Templates/HomeTemplate/HomeTemplate'
-import {AdminTemplate} from './Templates/AdminTemplate/Admintemplate'
+import { AdminTemplate } from './Templates/AdminTemplate/Admintemplate'
 import Contact from './Pages/Contact/Contact'
 import AboutUs from './Pages/AboutUs/AboutUs'
 import CourseCategory from './Pages/CourseCategory/CourseCategory'
@@ -14,9 +14,13 @@ import SignUp from './Pages/SignUp/SignUp'
 import Home from './Pages/Home/HomePage'
 import InfoPersonal from './Pages/InfoPersonal/InfoPersonal';
 import Admin from './Pages/Admin/Admin';
-import  CapNhatKhoaHoc  from './Pages/PageUpdate/CapNhatKhoaHoc';
-import  CapNhatNguoiDung  from './Pages/PageUpdate/CapNhatNguoiDung';
+import TabQuanLyKhoaHoc from './Pages/Admin/TabQuanLyKhoaHoc';
+import TabQuanLyNguoiDung from './Pages/Admin/TabQuanLyNguoiDung';
 
+import CapNhatKhoaHoc from './Pages/PageUpdate/CapNhatKhoaHoc';
+import CapNhatNguoiDung from './Pages/PageUpdate/CapNhatNguoiDung';
+import ThemKhoaHoc from './Pages/PageAdd/ThemKhoaHoc'
+import ThemNguoiDung from './Pages/PageAdd/ThemNguoiDung'
 function App() {
   return (
     <Fragment>
@@ -40,9 +44,13 @@ function App() {
           {/* <Admin exact path='/admin/addcourse' Component={AddCourse} /> */}
           {/* <Admin exact path='/admin/courselist' Component={CourseList} /> */}
 
-          <AdminTemplate exact path='/Admin/:taiKhoan' Component={Admin} />
+          <AdminTemplate exact path='/Admin/' Component={Admin} />
           <AdminTemplate exact path='/CapNhatKhoaHoc/:maKhoaHoc' Component={CapNhatKhoaHoc} />
           <AdminTemplate exact path='/CapNhatNguoiDung/:taiKhoan' Component={CapNhatNguoiDung} />
+          <AdminTemplate exact path='/TabQuanLyNguoiDung' Component={TabQuanLyNguoiDung} />
+          <AdminTemplate exact path='/TabQuanLyKhoaHoc' Component={TabQuanLyKhoaHoc} />
+          <AdminTemplate exact path='/ThemKhoaHoc' Component={ThemKhoaHoc} />
+          <AdminTemplate exact path='/ThemNguoiDung' Component={ThemNguoiDung} />
         </Switch>
       </BrowserRouter>
     </Fragment>
